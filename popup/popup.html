@@ -1,85 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=380">
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <header>
-    <h1>PromptVault</h1>
-    <div class="header-actions">
-      <button id="btn-export" aria-label="Export prompts" title="Export">Export</button>
-      <button id="btn-add" aria-label="Add prompt">+ Add Prompt</button>
-      <button id="btn-settings" class="icon-btn" aria-label="Settings">⚙</button>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=380" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>PromptFuse</h1>
+      <div class="header-actions">
+        <button id="btn-export" aria-label="Export prompts" title="Export">
+          Export
+        </button>
+        <button id="btn-add" aria-label="Add prompt">+ Add Prompt</button>
+        <button id="btn-settings" class="icon-btn" aria-label="Settings">
+          ⚙
+        </button>
+      </div>
+    </header>
 
-  <section id="controls">
-    <div class="search-row">
-      <input type="text" id="search-input" placeholder="Search prompts…" aria-label="Search prompts">
-      <button id="btn-clear-search" class="icon-btn" hidden aria-label="Clear search">×</button>
-    </div>
-    <div class="filter-row">
-      <select id="filter-category" aria-label="Filter by category">
-        <option value="">All Categories</option>
-      </select>
-      <select id="sort-order" aria-label="Sort order">
-        <option value="newest" selected>Newest first</option>
-        <option value="oldest">Oldest first</option>
-        <option value="most-used">Most used</option>
-        <option value="az">A → Z</option>
-      </select>
-      <button id="btn-favorites" class="icon-btn" aria-label="Favorites only" aria-pressed="false">★</button>
-    </div>
-    <div id="result-count"></div>
-  </section>
+    <section id="controls">
+      <div class="search-row">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search prompts…"
+          aria-label="Search prompts"
+        />
+        <button
+          id="btn-clear-search"
+          class="icon-btn"
+          hidden
+          aria-label="Clear search"
+        >
+          ×
+        </button>
+      </div>
+      <div class="filter-row">
+        <select id="filter-category" aria-label="Filter by category">
+          <option value="">All Categories</option>
+        </select>
+        <select id="sort-order" aria-label="Sort order">
+          <option value="newest" selected>Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="most-used">Most used</option>
+          <option value="az">A → Z</option>
+        </select>
+        <button
+          id="btn-favorites"
+          class="icon-btn"
+          aria-label="Favorites only"
+          aria-pressed="false"
+        >
+          ★
+        </button>
+      </div>
+      <div id="result-count"></div>
+    </section>
 
-  <section id="prompt-list-wrap">
-    <ul id="prompt-list"></ul>
-    <div id="empty-state" hidden>
-      <p>📋 No prompts yet.</p>
-      <button id="btn-empty-add">Add your first prompt →</button>
-    </div>
-  </section>
+    <section id="prompt-list-wrap">
+      <ul id="prompt-list"></ul>
+      <div id="empty-state" hidden>
+        <p>📋 No prompts yet.</p>
+        <button id="btn-empty-add">Add your first prompt →</button>
+      </div>
+    </section>
 
-  <div id="modal" role="dialog" aria-modal="true" hidden>
-    <div class="modal-box">
-      <h2 id="modal-title">Add Prompt</h2>
-      <label>
-        Title
-        <input id="field-title" type="text" maxlength="100" required aria-required="true">
-      </label>
-      <label>
-        Category
-        <input id="field-category" type="text" list="category-list">
-        <datalist id="category-list"></datalist>
-      </label>
-      <label>
-        Prompt
-        <textarea id="field-body" required aria-required="true"></textarea>
-      </label>
-      <label>
-        Tags (comma-separated)
-        <input id="field-tags" type="text" placeholder="coding, refactor, review">
-      </label>
-      <label class="checkbox-row">
-        <input id="field-favorite" type="checkbox"> Favorite
-      </label>
-      <div id="modal-error" class="modal-error" hidden>Title and prompt body are required.</div>
-      <div class="modal-actions">
-        <button id="btn-modal-cancel">Cancel</button>
-        <button id="btn-modal-save">Save</button>
+    <div id="modal" role="dialog" aria-modal="true" hidden>
+      <div class="modal-box">
+        <h2 id="modal-title">Add Prompt</h2>
+        <label>
+          Title
+          <input
+            id="field-title"
+            type="text"
+            maxlength="100"
+            required
+            aria-required="true"
+          />
+        </label>
+        <label>
+          Category
+          <input id="field-category" type="text" list="category-list" />
+          <datalist id="category-list"></datalist>
+        </label>
+        <label>
+          Prompt
+          <textarea id="field-body" required aria-required="true"></textarea>
+        </label>
+        <label>
+          Tags (comma-separated)
+          <input
+            id="field-tags"
+            type="text"
+            placeholder="coding, refactor, review"
+          />
+        </label>
+        <label class="checkbox-row">
+          <input id="field-favorite" type="checkbox" /> Favorite
+        </label>
+        <div id="modal-error" class="modal-error" hidden>
+          Title and prompt body are required.
+        </div>
+        <div class="modal-actions">
+          <button id="btn-modal-cancel">Cancel</button>
+          <button id="btn-modal-save">Save</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div id="toast" aria-live="polite" hidden></div>
+    <div id="toast" aria-live="polite" hidden></div>
 
-  <input type="file" id="import-input" accept=".json" hidden aria-label="Import prompts">
+    <input
+      type="file"
+      id="import-input"
+      accept=".json"
+      hidden
+      aria-label="Import prompts"
+    />
 
-  <script defer src="../db/db.js"></script>
-  <script defer src="../utils/sites.js"></script>
-  <script defer src="popup.js"></script>
-</body>
+    <script defer src="../db/db.js"></script>
+    <script defer src="../utils/sites.js"></script>
+    <script defer src="popup.js"></script>
+  </body>
 </html>
