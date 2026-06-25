@@ -204,6 +204,11 @@ function renderList(prompts) {
     btnInject.textContent = "Inject";
     btnInject.addEventListener("click", () => injectPrompt(p));
 
+    const btnCopy = document.createElement("button");
+    btnCopy.className = "btn-copy";
+    btnCopy.textContent = "Copy";
+    btnCopy.addEventListener("click", () => copyPrompt(p));
+
     const btnEdit = document.createElement("button");
     btnEdit.className = "btn-edit";
     btnEdit.textContent = "Edit";
@@ -215,6 +220,7 @@ function renderList(prompts) {
     btnDelete.addEventListener("click", () => confirmDelete(p.id, actions));
 
     actions.appendChild(btnInject);
+    actions.appendChild(btnCopy);
     actions.appendChild(btnEdit);
     actions.appendChild(btnDelete);
     li.appendChild(actions);
@@ -344,6 +350,15 @@ function refreshList() {
     .catch((err) => {
       showToast("Error loading prompts: " + err.message, "error");
     });
+}
+
+// ── Copy prompt to clipboard ──
+function copyPrompt(prompt) {
+  navigator.clipboard.writeText(prompt.body).then(() => {
+    showToast("Copied to clipboard", "success");
+  }).catch(() => {
+    showToast("Failed to copy", "error");
+  });
 }
 
 // ── Inject prompt ──

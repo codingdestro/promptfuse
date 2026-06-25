@@ -310,6 +310,7 @@ header h1 {
   background: var(--accent-hover);
 }
 
+.btn-copy,
 .btn-edit,
 .btn-delete {
   background: transparent;
@@ -325,6 +326,11 @@ header h1 {
 .btn-edit:hover {
   color: var(--accent);
   background: rgba(124, 106, 247, 0.15);
+}
+
+.btn-copy:hover {
+  color: var(--success);
+  background: rgba(76, 175, 125, 0.15);
 }
 
 .btn-delete:hover {
