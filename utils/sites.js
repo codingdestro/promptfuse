@@ -23,4 +23,22 @@ const SITE_CONFIG = {
     inputType: "contenteditable",
     submitSelector: "button.send-button",
   },
+  "t3.chat": {
+    name: "T3Chat",
+    inputSelector: "#chat-input",
+    inputType: "textarea",
+    submitSelector: "button.send-button",
+  },
+  "grok.com": {
+    name: "Grok",
+    inputSelector: ".tiptap.ProseMirror",
+    inputType: "contenteditable",
+    submitSelector: "button",
+  },
+  "chat.qwen.ai": {
+    name: "Qwen",
+    inputSelector: ".message-input-textarea",
+    inputType: "textarea",
+    submitSelector: "button",
+  },
 };

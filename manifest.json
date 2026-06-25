@@ -34,7 +34,10 @@
     {
       "matches": [
         "https://chatgpt.com/*",
+        "https://t3.chat/*",
+        "https://grok.com/*",
         "https://claude.ai/*",
+        "https://chat.qwen.ai/*",
         "https://chat.deepseek.com/*",
         "https://gemini.google.com/*"
       ],
