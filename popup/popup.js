@@ -489,6 +489,31 @@ function importPrompts(file) {
   reader.readAsText(file);
 }
 
+// ── Pending context data (from context menu) ──
+function checkPendingContextData() {
+  const PENDING_KEY = "pendingContextData";
+  const MAX_AGE = 5 * 60 * 1000; // 5 minutes
+
+  chrome.storage.local.get(PENDING_KEY, (result) => {
+    if (chrome.runtime.lastError) return;
+
+    const data = result[PENDING_KEY];
+    if (!data) return;
+
+    // Clear immediately to prevent re-use on next popup open
+    chrome.storage.local.remove(PENDING_KEY);
+
+    // Discard stale data (>5 min old)
+    const age = Date.now() - (data.capturedAt || 0);
+    if (age > MAX_AGE) return;
+
+    // Open the add modal (resets all fields to empty)
+    openAddModal();
+    // Pre-fill body with selected text
+    fieldBody.value = data.selectedText || "";
+  });
+}
+
 // ── Event wiring ──
 document.addEventListener("DOMContentLoaded", () => {
   // Search with debounce
@@ -559,4 +584,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Restore state and init
   restoreFilterState();
+  checkPendingContextData();
 });

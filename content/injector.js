@@ -1,39 +1,40 @@
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type !== 'INJECT_PROMPT') return;
-
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+  if (message.type !== "INJECT_PROMPT") return;
   const hostname = window.location.hostname;
   const config = SITE_CONFIG[hostname];
 
   if (!config) {
-    sendResponse({ success: false, reason: 'UNSUPPORTED_PLATFORM' });
+    sendResponse({ success: false, reason: "UNSUPPORTED_PLATFORM" });
     return true;
   }
 
   function doInject() {
     const el = document.querySelector(config.inputSelector);
     if (!el) {
-      sendResponse({ success: false, reason: 'INPUT_NOT_FOUND' });
+      sendResponse({ success: false, reason: "INPUT_NOT_FOUND" });
       return;
     }
 
-    if (config.inputType === 'textarea') {
+    if (config.inputType === "textarea") {
       el.value = message.text;
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-      el.dispatchEvent(new Event('change', { bubbles: true }));
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+      el.dispatchEvent(new Event("change", { bubbles: true }));
     } else {
       // contenteditable
       el.focus();
       if (document.execCommand) {
         el.focus();
-        document.execCommand('selectAll');
-        document.execCommand('insertText', false, message.text);
+        document.execCommand("selectAll");
+        document.execCommand("insertText", false, message.text);
       } else {
         el.textContent = message.text;
-        el.dispatchEvent(new InputEvent('input', {
-          bubbles: true,
-          inputType: 'insertText',
-          data: message.text
-        }));
+        el.dispatchEvent(
+          new InputEvent("input", {
+            bubbles: true,
+            inputType: "insertText",
+            data: message.text,
+          }),
+        );
       }
     }
 
@@ -53,3 +54,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   return true; // keep channel open for async response
 });
+
+//context menu
+function handleMenu() {
+  console.log("hello world");
+}
