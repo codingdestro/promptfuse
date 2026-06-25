@@ -16,7 +16,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://chat.openai.com/*",
+        "https://chatgpt.com/*",
         "https://claude.ai/*",
         "https://chat.deepseek.com/*",
         "https://gemini.google.com/*"
