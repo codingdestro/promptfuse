@@ -263,6 +263,25 @@ function confirmDelete(id, actionsEl) {
   }, 3000);
 }
 
+// ── Category filter population ──
+function populateCategoryFilter() {
+  db.getAllCategories().then((categories) => {
+    const currentValue = filterCategory.value;
+    // Keep only the first "All Categories" option
+    while (filterCategory.options.length > 1) {
+      filterCategory.remove(1);
+    }
+    categories.forEach((c) => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      filterCategory.appendChild(opt);
+    });
+    filterCategory.value = currentValue;
+  });
+  populateCategoryDatalist();
+}
+
 // ── Refresh list ──
 function refreshList() {
   const searchQ = searchInput.value.trim();
@@ -320,6 +339,7 @@ function refreshList() {
       });
 
       renderList(sorted);
+      populateCategoryFilter();
     })
     .catch((err) => {
       showToast("Error loading prompts: " + err.message, "error");
