@@ -1,4 +1,4 @@
-# PromptVault
+# PromptFuse
 
 A Firefox browser extension that lets you store, organize, and inject reusable AI prompts directly into chat platforms — ChatGPT, Claude, DeepSeek, and Gemini. Prompts are saved locally in IndexedDB with full CRUD, search, category sorting, favorites, and import/export.
 
@@ -16,7 +16,7 @@ A Firefox browser extension that lets you store, organize, and inject reusable A
 1. Open Firefox and navigate to `about:debugging`
 2. Click **This Firefox** → **Load Temporary Add-on**
 3. Select `manifest.json` from the extracted build folder or zip
-4. The PromptVault icon appears in the toolbar
+4. The PromptFuse icon appears in the toolbar
 
 ### Permanent install (future)
 
@@ -31,7 +31,7 @@ Once submitted to AMO, install directly from `addons.mozilla.org`.
 
 ## Usage
 
-1. Click the PromptVault toolbar icon to open the popup
+1. Click the PromptFuse toolbar icon to open the popup
 2. Click **+ Add Prompt** to create a new prompt
 3. Browse your library, search by keyword, or filter by category and favorites
 4. Navigate to a supported AI chat platform

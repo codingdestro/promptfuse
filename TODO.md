@@ -1,8 +1,8 @@
-# PromptVault — Firefox Extension
+# PrompFuse— Firefox Extension
 
 ## Agent Task List
 
-> **Agent briefing:** You are building a Firefox browser extension called **PromptVault**. It lets users store, organize, and inject reusable AI prompts directly into chat platforms (ChatGPT, Claude, DeepSeek, Gemini). Storage is IndexedDB. UI is a browser action popup. Injection is done via content scripts. Work through tasks in phase order. Each task includes its goal, inputs, expected outputs, and done criteria. Do not skip tasks — later phases depend on earlier ones.
+> **Agent briefing:** You are building a Firefox browser extension called **PromptFuse**. It lets users store, organize, and inject reusable AI prompts directly into chat platforms (ChatGPT, Claude, DeepSeek, Gemini). Storage is IndexedDB. UI is a browser action popup. Injection is done via content scripts. Work through tasks in phase order. Each task includes its goal, inputs, expected outputs, and done criteria. Do not skip tasks — later phases depend on earlier ones.
 
 ---
 
@@ -35,7 +35,7 @@ Mark tasks `[x]` only when every DONE criterion is met. Never mark done speculat
 GOAL:    Create the canonical project layout all future tasks will write into.
 INPUT:   Nothing. This is the starting point.
 OUTPUT:  The following empty files and directories on disk:
-           promptvault/
+           promptfuse/
            ├── manifest.json          ← to be filled in T-02
            ├── background/
            │   └── background.js      ← empty
@@ -64,10 +64,10 @@ DONE:
 ```
 GOAL:    Produce a valid MV3 manifest that Firefox accepts when loaded via about:debugging.
 INPUT:   T-01 completed (folder exists).
-OUTPUT:  promptvault/manifest.json with all fields below.
+OUTPUT:  promptfuse/manifest.json with all fields below.
 NOTES:
   - manifest_version: 3
-  - name: "PromptVault"
+  - name: "PromptFuse"
   - version: "1.0.0"
   - description: "Store, organize, and inject reusable prompts into AI chat platforms."
   - permissions: ["storage", "activeTab", "scripting"]
@@ -122,7 +122,7 @@ DONE:
 GOAL:    Implement the DB open/upgrade logic with the correct object store and indexes.
 INPUT:   db/db.js (currently empty).
 OUTPUT:  db/db.js containing:
-           - DB_NAME = "PromptVaultDB", DB_VERSION = 1
+           - DB_NAME = "PromptFuseDB", DB_VERSION = 1
            - openDB() → returns a Promise<IDBDatabase>
            - Object store "prompts" with keyPath "id", autoIncrement: true
            - Indexes:
@@ -215,7 +215,7 @@ INPUT:   T-01 (popup/ folder exists), design spec below.
 OUTPUT:  popup/popup.html with these regions:
 
   <header>
-    - Extension name "PromptVault" as h1
+    - Extension name "PromptFuse" as h1
     - "+ Add Prompt" button  (id="btn-add")
     - Settings gear icon button (id="btn-settings")
 
@@ -622,7 +622,7 @@ OUTPUT:
     1. Call getAllPrompts()
     2. Serialize to JSON with 2-space indent
     3. Wrap in Blob({ type: "application/json" })
-    4. Create an <a> with download="promptvault-YYYY-MM-DD.json"
+    4. Create an <a> with download="promptfuse-YYYY-MM-DD.json"
     5. Programmatically click it, then revoke the object URL
 DONE:
   [ ] Clicking Export downloads a .json file
@@ -743,8 +743,8 @@ OUTPUT:  No changes needed if clean; otherwise patched source files.
 GOAL:    Produce a submission-ready zip and store listing assets.
 INPUT:   All phases complete and QA passing (T-15, T-16).
 OUTPUT:
-  - Run: web-ext build --source-dir ./promptvault --artifacts-dir ./dist
-    → produces dist/promptvault-1.0.0.zip
+  - Run: web-ext build --source-dir ./promptfuse --artifacts-dir ./dist
+    → produces dist/promptfuse-1.0.0.zip
   - Write README.md at repo root:
       - One-paragraph description
       - Screenshot placeholder notes (agent: list what each screenshot should show)

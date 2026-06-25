@@ -1,6 +1,6 @@
-const DB_NAME = 'PromptVaultDB';
+const DB_NAME = "PromptFuseDB";
 const DB_VERSION = 1;
-const STORE_NAME = 'prompts';
+const STORE_NAME = "prompts";
 
 let _db = null;
 
@@ -12,12 +12,15 @@ function openDB() {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+      const store = db.createObjectStore(STORE_NAME, {
+        keyPath: "id",
+        autoIncrement: true,
+      });
 
-      store.createIndex('by_category', 'category', { unique: false });
-      store.createIndex('by_favorite', 'isFavorite', { unique: false });
-      store.createIndex('by_usage', 'usageCount', { unique: false });
-      store.createIndex('by_created', 'createdAt', { unique: false });
+      store.createIndex("by_category", "category", { unique: false });
+      store.createIndex("by_favorite", "isFavorite", { unique: false });
+      store.createIndex("by_usage", "usageCount", { unique: false });
+      store.createIndex("by_created", "createdAt", { unique: false });
     };
 
     request.onsuccess = (event) => {
@@ -37,7 +40,7 @@ const db = {
   getAllPrompts() {
     return openDB().then((db) => {
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
+        const tx = db.transaction(STORE_NAME, "readonly");
         const store = tx.objectStore(STORE_NAME);
         const request = store.getAll();
 
@@ -50,8 +53,8 @@ const db = {
   getPromptsByCategory(category) {
     return openDB().then((db) => {
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const index = tx.objectStore(STORE_NAME).index('by_category');
+        const tx = db.transaction(STORE_NAME, "readonly");
+        const index = tx.objectStore(STORE_NAME).index("by_category");
         const request = index.getAll(IDBKeyRange.only(category));
 
         request.onsuccess = () => resolve(request.result);
@@ -63,18 +66,18 @@ const db = {
   addPrompt(fields) {
     return openDB().then((db) => {
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = db.transaction(STORE_NAME, "readwrite");
         const store = tx.objectStore(STORE_NAME);
         const now = Date.now();
         const record = {
           title: fields.title,
           body: fields.body,
-          category: fields.category || '',
+          category: fields.category || "",
           tags: fields.tags || [],
           isFavorite: fields.isFavorite || false,
           usageCount: fields.usageCount || 0,
           createdAt: now,
-          updatedAt: now
+          updatedAt: now,
         };
         const request = store.add(record);
 
@@ -87,7 +90,7 @@ const db = {
   updatePrompt(id, fields) {
     return openDB().then((db) => {
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = db.transaction(STORE_NAME, "readwrite");
         const store = tx.objectStore(STORE_NAME);
         const getRequest = store.get(id);
 
@@ -111,7 +114,7 @@ const db = {
   deletePrompt(id) {
     return openDB().then((db) => {
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = db.transaction(STORE_NAME, "readwrite");
         const store = tx.objectStore(STORE_NAME);
         const request = store.delete(id);
 
@@ -124,7 +127,7 @@ const db = {
   incrementUsage(id) {
     return openDB().then((db) => {
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = db.transaction(STORE_NAME, "readwrite");
         const store = tx.objectStore(STORE_NAME);
         const getRequest = store.get(id);
 
@@ -152,7 +155,9 @@ const db = {
         if (p.title && p.title.toLowerCase().includes(lowerQuery)) return true;
         if (p.body && p.body.toLowerCase().includes(lowerQuery)) return true;
         if (p.tags && Array.isArray(p.tags)) {
-          return p.tags.some((tag) => tag && tag.toLowerCase().includes(lowerQuery));
+          return p.tags.some(
+            (tag) => tag && tag.toLowerCase().includes(lowerQuery),
+          );
         }
         return false;
       });
@@ -167,5 +172,5 @@ const db = {
       });
       return Array.from(categories).sort((a, b) => a.localeCompare(b));
     });
-  }
+  },
 };
